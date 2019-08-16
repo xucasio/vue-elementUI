@@ -282,7 +282,7 @@ $cursor: #fff;
       height: 47px;
       caret-color: #333;
       position: relative;
-      top: 3px;
+      top: 0px;
       font-size: 18px;
       &:-webkit-autofill {
         box-shadow: 0 0 0px 1000px #fff inset !important;
@@ -301,6 +301,8 @@ $cursor: #fff;
   }
   .svg-container{
     font-size: 18px;
+    position: relative;
+    top: -3px;
     .svg-icon{
       width: 1.2em;
     }

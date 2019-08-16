@@ -1,7 +1,7 @@
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
-
+import { Message } from 'element-ui'
 const state = {
   token: getToken(),
   name: '',
@@ -31,13 +31,22 @@ const mutations = {
 const actions = {
   // user login
   login({ commit }, userInfo) {
+    debugger
     const { username, password, verify } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password, verify: verify }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
-        resolve()
+        const data = response
+        if (data.code !== 0) {
+          Message({
+            message: data.msg || '网络连接失败',
+            type: 'error',
+            duration: 5 * 1000
+          })
+        } else {
+          commit('SET_TOKEN', data.username + ';' + data.token)
+          setToken(data.token)
+          resolve()
+        }
       }).catch(error => {
         reject(error)
       })

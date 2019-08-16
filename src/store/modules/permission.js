@@ -48,6 +48,7 @@ const mutations = {
 
 const actions = {
   generateRoutes({ commit }, roles) {
+    debugger
     return new Promise(resolve => {
       let accessedRoutes
       if (roles.includes('admin')) {
