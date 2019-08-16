@@ -1,9 +1,10 @@
 import request from '@/utils/request'
-
+import { proxyPrex } from '@/settings'
 export function login(data) {
   return request({
-    url: '/user/login',
+    url: proxyPrex + 'login',
     method: 'post',
+    headers: { crossDomain: true, xhrFields: '{ withCredentials: true }' }, // 设置header信息
     data
   })
 }

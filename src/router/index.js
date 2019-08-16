@@ -349,7 +349,22 @@ export const constantRoutes = [
 //   // 404 page must be placed at the end !!!
 //   { path: '*', redirect: '/404', hidden: true }
 // ]
-export const asyncRoutes = [{ path: '*', redirect: '/404', hidden: true }]
+export const asyncRoutes = [
+  {
+    path: '/test',
+    component: Layout,
+    redirect: '/test/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/test/index'),
+        name: 'Test',
+        meta: { title: '测试', icon: 'user', noCache: true }
+      }
+    ]
+  },
+  { path: '*', redirect: '/404', hidden: true }
+]
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),

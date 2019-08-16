@@ -272,9 +272,9 @@ const setTwoOption = (datas, keyBar) => {
         normal: {
           ...twoOption.series.label.normal,
           formatter: (params) => {
-            let val = ''
             if (Number(params.value) !== 0 && params.data.realVal) {
-              val = params.data.realVal
+              const val = params.data.realVal
+              console.log(val)
             }
             return ''
           }

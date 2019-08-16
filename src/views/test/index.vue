@@ -1,21 +1,12 @@
 <template>
-  <div />
+  <div>测试</div>
 </template>
-
 <script>
 export default {
-  name: 'Test',
-  props: {},
+  components: {},
   data() {
     return {}
   },
-  created() {},
-  mounted() {},
-
   methods: {}
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

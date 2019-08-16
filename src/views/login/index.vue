@@ -1,11 +1,18 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
-
-      <div class="title-container">
-        <h3 class="title">Login Form</h3>
+    <div class="titleHeader">
+      <div class="title_c">
+        <p class="title_c_cn">
+          <span class="txt">大数据供应链金融后台系统</span>
+        </p>
+        <p class="title_c_en">supply chain finance</p>
       </div>
-
+    </div>
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
+      <div class="title-container">
+        <h3 class="title">用户登录</h3>
+        <p class="title2">欢迎登录大数据供应链金融后台系统</p>
+      </div>
       <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
@@ -20,8 +27,7 @@
           autocomplete="on"
         />
       </el-form-item>
-
-      <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
+      <el-tooltip v-model="capsTooltip" content="大写键锁住" placement="right" manual>
         <el-form-item prop="password">
           <span class="svg-container">
             <svg-icon icon-class="password" />
@@ -44,27 +50,31 @@
           </span>
         </el-form-item>
       </el-tooltip>
-
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
-
-      <div style="position:relative">
-        <div class="tips">
-          <span>Username : admin</span>
-          <span>Password : any</span>
-        </div>
-        <div class="tips">
-          <span style="margin-right:18px;">Username : editor</span>
-          <span>Password : any</span>
-        </div>
-
-        <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
-          Or connect with
-        </el-button>
-      </div>
+      <el-row>
+        <el-col :span="16">
+          <el-form-item prop="verify">
+            <el-input
+              ref="verify"
+              v-model="loginForm.verify"
+              placeholder="验证码"
+              name="verify"
+              type="text"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <img ref="verifyCode" alt="验证码" width="100%" @click="getVerify">
+        </el-col>
+      </el-row>
+      <el-button :loading="loading" type="primary" class="loginBtn" @click.native.prevent="handleLogin">登 录</el-button>
+      <el-button :loading="loading" type="primary" class="regiterBtn" @click.native.prevent="handleRegiter">注 册</el-button>
     </el-form>
-
-    <el-dialog title="Or connect with" :visible.sync="showDialog">
-      Can not be simulated on local, so please combine you own business simulation! ! !
+    <div class="signup-footer">
+      <div class="text-center">增值电信业务经营许可证:粤B2-20000000 粤ICP备00000000号 粤公网安备 44030500000000号 &nbsp;©</div>
+      <div class="text-center">2017 All Rights Reserved.</div>
+    </div>
+    <el-dialog title="第三方登录" :visible.sync="showDialog">
+      暂未打通，敬请期待！
       <br>
       <br>
       <br>
@@ -83,26 +93,39 @@ export default {
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+        callback(new Error('请输入用户名！'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error('密码至少为6位！'))
       } else {
         callback()
+      }
+    }
+    const validateVerify = (rule, value, callback) => {
+      if (value) {
+        if (value.length !== 4) {
+          callback(new Error('请输入四位验证码！'))
+        } else {
+          callback()
+        }
+      } else {
+        callback(new Error('请输入四位验证码！'))
       }
     }
     return {
       loginForm: {
         username: 'admin',
-        password: '111111'
+        password: '111111',
+        verify: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
+        verify: [{ required: true, trigger: 'blur', validator: validateVerify }]
       },
       passwordType: 'password',
       capsTooltip: false,
@@ -133,6 +156,7 @@ export default {
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
     }
+    this.getVerify()
   },
   destroyed() {
     // window.removeEventListener('storage', this.afterQRScan)
@@ -185,6 +209,27 @@ export default {
         }
         return acc
       }, {})
+    },
+    handleRegiter() {
+      this.$refs.regiterForm.validate(valid => {
+        if (valid) {
+          this.loading = true
+          this.$store.dispatch('user/login', this.loginForm)
+            .then(() => {
+              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+              this.loading = false
+            })
+            .catch(() => {
+              this.loading = false
+            })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    getVerify() {
+      this.$refs['verifyCode'].src = 'api/getVerify?' + Math.random()
     }
     // afterQRScan() {
     //   if (e.key === 'x-admin-oauth-code') {
@@ -227,29 +272,80 @@ $cursor: #fff;
     display: inline-block;
     height: 47px;
     width: 85%;
-
     input {
       background: transparent;
       border: 0px;
       -webkit-appearance: none;
       border-radius: 0px;
       padding: 12px 5px 12px 15px;
-      color: $light_gray;
+      color: #333;
       height: 47px;
-      caret-color: $cursor;
-
+      caret-color: #333;
+      position: relative;
+      top: 3px;
+      font-size: 18px;
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
+        box-shadow: 0 0 0px 1000px #fff inset !important;
+        // -webkit-text-fill-color: $cursor !important;
       }
     }
   }
 
   .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 5px;
     color: #454545;
+    .el-form-item__content{
+      border-bottom: 1px solid #ccc;
+    }
+  }
+  .svg-container{
+    font-size: 18px;
+    .svg-icon{
+      width: 1.2em;
+    }
+  }
+  img {
+    cursor: pointer;
+  }
+  .titleHeader{
+    height: 130px;
+    background: #fff;
+    color: #333;
+    .title_c{
+      width: 80%;
+      height: 130px;
+      margin: 0 auto;
+      .title_c_cn{
+        margin: 0;
+        .txt{
+          font-size: 34px;
+          display: inline-block;
+          margin: 20px 20px 10px 20px;
+          padding: 0px 20px;
+        }
+        .type{
+          font-size: 20px;
+          position: relative;
+          top: -5px;
+        }
+      }
+      .title_c_en{
+        width: 420px;
+        text-align: center;
+        font-size: 20px;
+        margin: 5px auto 5px 0px;
+      }
+    }
+  }
+  .signup-footer{
+    margin:20px 0;
+    padding-top: 15px;
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+    color: #fff;
+    font-size: 14px;
   }
 }
 </style>
@@ -263,15 +359,38 @@ $light_gray:#eee;
   min-height: 100%;
   width: 100%;
   background-color: $bg;
+  background-image: url('../../assets/img/login_bg.png');
+  background-size: 100%;
+  background-repeat: no-repeat;
   overflow: hidden;
-
+  position: relative;
   .login-form {
     position: relative;
-    width: 520px;
+    width: 480px;
     max-width: 100%;
-    padding: 160px 35px 0;
     margin: 0 auto;
     overflow: hidden;
+    position: absolute;
+    right: 15%;
+    top: calc(50vh - 240px);
+    padding: 25px 30px;
+    border-radius: 15px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,.3);
+    .loginBtn{
+      width:100%;
+      margin: 0;
+      margin-bottom:15px;
+      height: 45px;
+      font-size: 18px;
+    }
+    .regiterBtn{
+      width:100%;
+      margin: 0;
+      margin-bottom:15px;
+      height: 45px;
+      font-size: 18px;
+    }
   }
 
   .tips {
@@ -296,13 +415,19 @@ $light_gray:#eee;
 
   .title-container {
     position: relative;
-
     .title {
       font-size: 26px;
-      color: $light_gray;
-      margin: 0px auto 40px auto;
-      text-align: center;
-      font-weight: bold;
+      color: #333;
+      text-align: left;
+      font-weight: normal;
+      margin-bottom: 15px;
+    }
+    .title2 {
+      font-size: 18px;
+      color: #666;
+      text-align: left;
+      font-weight: normal;
+      margin-bottom: 25px;
     }
   }
 

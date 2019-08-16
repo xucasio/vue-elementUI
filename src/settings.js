@@ -1,6 +1,5 @@
 module.exports = {
-  title: 'Vue Element Admin',
-
+  title: '大数据供应链金融',
   /**
    * @type {boolean} true | false
    * @description Whether show the settings right-panel
@@ -31,5 +30,6 @@ module.exports = {
    * The default is only used in the production env
    * If you want to also use it in dev, you can pass ['production', 'development']
    */
-  errorLog: 'production'
+  errorLog: 'production',
+  proxyPrex: 'api/'
 }
