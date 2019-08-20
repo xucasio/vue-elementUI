@@ -17,6 +17,10 @@ import './icons' // icon
 import './permission' // permission control
 import './utils/error-log' // error log
 
+// MD5 加密
+import md5 from 'js-md5'
+Vue.prototype.$md5 = md5
+
 import * as filters from './filters' // global filters
 
 /**

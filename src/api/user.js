@@ -9,11 +9,10 @@ export function login(data) {
   })
 }
 
-export function getInfo(token) {
+export function getInfo() {
   return request({
-    url: '/user/info',
-    method: 'get',
-    params: { token }
+    url: proxyPrex + '/sys/user/personal',
+    method: 'get'
   })
 }
 
@@ -21,5 +20,19 @@ export function logout() {
   return request({
     url: '/user/logout',
     method: 'post'
+  })
+}
+export function updatePeronal(data) {
+  return request({
+    url: proxyPrex + 'sys/user/updatePeronal',
+    method: 'post',
+    data
+  })
+}
+export function resetPwd(data) {
+  return request({
+    url: proxyPrex + 'sys/user/resetPwd',
+    method: 'post',
+    data
   })
 }

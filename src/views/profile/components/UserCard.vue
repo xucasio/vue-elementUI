@@ -1,7 +1,7 @@
 <template>
   <el-card style="margin-bottom:20px;">
     <div slot="header" class="clearfix">
-      <span>About me</span>
+      <span>我的信息</span>
     </div>
 
     <div class="user-profile">
@@ -13,22 +13,22 @@
       </div>
       <div class="box-center">
         <div class="user-name text-center">{{ user.name }}</div>
-        <div class="user-role text-center text-muted">{{ user.role | uppercaseFirst }}</div>
+        <div class="user-role text-center text-muted">{{ user.roleName }}</div>
       </div>
     </div>
 
     <div class="user-bio">
       <div class="user-education user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>Education</span></div>
+        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>简介</span></div>
         <div class="user-bio-section-body">
           <div class="text-muted">
-            JS in Computer Science from the University of Technology
+            一个超级管理员
           </div>
         </div>
       </div>
 
-      <div class="user-skills user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>Skills</span></div>
+      <!-- <div class="user-skills user-bio-section">
+        <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>技能</span></div>
         <div class="user-bio-section-body">
           <div class="progress-item">
             <span>Vue</span>
@@ -47,7 +47,7 @@
             <el-progress :percentage="100" status="success" />
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </el-card>
 </template>
@@ -65,7 +65,8 @@ export default {
           name: '',
           email: '',
           avatar: '',
-          roles: ''
+          roles: '',
+          roleName: ''
         }
       }
     }

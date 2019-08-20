@@ -188,7 +188,9 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm)
+          const obj = Object.assign({}, this.loginForm)
+          obj.password = this.$md5(obj.password + obj.username)
+          this.$store.dispatch('user/login', obj)
             .then(() => {
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
               this.loading = false
