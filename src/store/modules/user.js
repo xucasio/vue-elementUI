@@ -53,6 +53,15 @@ const mutations = {
   },
   SET_LIVEADDRESS: (state, liveAddress) => {
     state.liveAddress = liveAddress
+  },
+  SET_PROVINCE: (state, province) => {
+    state.province = province
+  },
+  SET_CITY: (state, city) => {
+    state.city = city
+  },
+  SET_DISTRICT: (state, district) => {
+    state.district = district
   }
 }
 
@@ -84,11 +93,11 @@ const actions = {
   getInfo({ commit }) {
     return new Promise((resolve, reject) => {
       getInfo().then(response => {
-        const { user } = response
+        const user = response.user || {}
         if (!user) {
           reject('Verification failed, please Login again.')
         }
-        const { username, name, sex, birth, mobile, email, liveAddress, userId } = user
+        const { username, name, sex, birth, mobile, email, liveAddress, userId, province, city, district } = user
         commit('SET_ROLES', ['admin'])
         commit('SET_NAME', username)
         commit('SET_AVATAR', userImg)
@@ -99,6 +108,9 @@ const actions = {
         commit('SET_EMAIL', email)
         commit('SET_USERID', userId)
         commit('SET_LIVEADDRESS', liveAddress)
+        commit('SET_PROVINCE', province)
+        commit('SET_CITY', city)
+        commit('SET_DISTRICT', district)
         resolve(user)
       }).catch(error => {
         reject(error)

@@ -12,15 +12,15 @@
         @click.middle.native="closeSelectedTag(tag)"
         @contextmenu.prevent.native="openMenu(tag,$event)"
       >
-        {{ tag.title }}
+        <svg-icon :icon-class="tag.icon" /> {{ tag.title }}
         <span v-if="!tag.meta.affix" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
       </router-link>
     </scroll-pane>
     <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
-      <li @click="refreshSelectedTag(selectedTag)">Refresh</li>
-      <li v-if="!(selectedTag.meta&&selectedTag.meta.affix)" @click="closeSelectedTag(selectedTag)">Close</li>
-      <li @click="closeOthersTags">Close Others</li>
-      <li @click="closeAllTags(selectedTag)">Close All</li>
+      <li @click="refreshSelectedTag(selectedTag)">刷新</li>
+      <li v-if="!(selectedTag.meta&&selectedTag.meta.affix)" @click="closeSelectedTag(selectedTag)">关闭</li>
+      <li @click="closeOthersTags">关闭其他</li>
+      <li @click="closeAllTags(selectedTag)">全部关闭</li>
     </ul>
   </div>
 </template>
@@ -193,7 +193,7 @@ export default {
 
 <style lang="scss" scoped>
 .tags-view-container {
-  height: 33px;
+  height: 40px;
   width: 100%;
   background: #fff;
   border-bottom: 1px solid #d8dce5;
@@ -203,18 +203,18 @@ export default {
       display: inline-block;
       position: relative;
       cursor: pointer;
-      height: 33px;
-      line-height: 28px;
+      height: 40px;
+      line-height: 40px;
       border: 1px solid #d8dce5;
       color: #495060;
       background: #fff;
       padding: 0 8px;
-      font-size: 12px;
+      font-size: 14px;
       &:first-of-type {
-        margin-left: 15px;
+        margin-left: 0px;
       }
       &:last-of-type {
-        margin-right: 15px;
+        margin-right: 0px;
       }
       &.active {
         background-color: #409EFF;
@@ -235,13 +235,13 @@ export default {
   }
   .contextmenu {
     margin: 0;
-    background: #fff;
+    background: #fffcfc;
     z-index: 3000;
     position: absolute;
     list-style-type: none;
     padding: 5px 0;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 400;
     color: #333;
     box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .3);

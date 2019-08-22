@@ -67,7 +67,6 @@
         </el-col>
       </el-row>
       <el-button :loading="loading" type="primary" class="loginBtn" @click.native.prevent="handleLogin">登 录</el-button>
-      <el-button :loading="loading" type="primary" class="regiterBtn" @click.native.prevent="handleRegiter">注 册</el-button>
     </el-form>
     <div class="signup-footer">
       <div class="text-center">增值电信业务经营许可证:粤B2-20000000 粤ICP备00000000号 粤公网安备 44030500000000号 &nbsp;©</div>

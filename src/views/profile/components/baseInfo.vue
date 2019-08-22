@@ -25,7 +25,10 @@
           <el-form-item label="邮箱" prop="email">
             <el-input v-model="ruleForm.email" />
           </el-form-item>
-          <el-form-item label="地址" prop="liveAddress">
+          <el-form-item label="地址" prop="address">
+            <areas :areas="areaData" />
+          </el-form-item>
+          <el-form-item label="详细地址" prop="liveAddress">
             <el-input v-model="ruleForm.liveAddress" />
           </el-form-item>
           <el-form-item>
@@ -40,8 +43,25 @@
 <script>
 import { mapGetters } from 'vuex'
 import { updatePeronal } from '@/api/user'
+import Areas from '@/components/Areas'
 export default {
+  components: {
+    Areas
+  },
   data() {
+    // validatePass
+    var _this = this
+    var validateAddress = (rule, value, callback) => {
+      if (!_this.areaData.province) {
+        callback(new Error('请选择省'))
+      } else if (!_this.areaData.city) {
+        callback(new Error('请选择市!'))
+      } else if (!_this.areaData.district) {
+        callback(new Error('请选择区!'))
+      } else {
+        callback()
+      }
+    }
     return {
       ruleForm: {
         name: '',
@@ -69,8 +89,12 @@ export default {
         ],
         liveAddress: [
           { required: true, message: '请输入联系地址', trigger: 'blur' }
+        ],
+        address: [
+          { required: true, validator: validateAddress }
         ]
-      }
+      },
+      areaData: {}
     }
   },
   computed: {
@@ -80,7 +104,11 @@ export default {
       'email',
       'mobile',
       'birth',
-      'liveAddress'
+      'liveAddress',
+      'userId',
+      'province',
+      'city',
+      'district'
     ])
   },
   created() {
@@ -92,14 +120,24 @@ export default {
       birth: this.birth,
       liveAddress: this.liveAddress
     }
+    this.areaData = {
+      province: this.province,
+      city: this.city,
+      district: this.district
+    }
   },
   methods: {
     submitForm(formName) {
-      debugger
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          updatePeronal(this.ruleForm).then((res) => {
-            debugger
+          let obj = Object.assign({}, this.ruleForm)
+          obj = { ...obj, ...this.areaData, userId: this.userId }
+          updatePeronal(obj).then((res) => {
+            this.$message({
+              message: res.msg || '操作成功！',
+              type: 'success',
+              duration: 3 * 1000
+            })
           })
         } else {
           console.log('error submit!!')

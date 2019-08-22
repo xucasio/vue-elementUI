@@ -11,15 +11,15 @@ export function login(data) {
 
 export function getInfo() {
   return request({
-    url: proxyPrex + '/sys/user/personal',
+    url: proxyPrex + 'sys/user/personal',
     method: 'get'
   })
 }
 
 export function logout() {
   return request({
-    url: '/user/logout',
-    method: 'post'
+    url: proxyPrex + 'logout',
+    method: 'get'
   })
 }
 export function updatePeronal(data) {
@@ -34,5 +34,11 @@ export function resetPwd(data) {
     url: proxyPrex + 'sys/user/resetPwd',
     method: 'post',
     data
+  })
+}
+export function menuInfo() {
+  return request({
+    url: proxyPrex + 'menus',
+    method: 'get'
   })
 }
