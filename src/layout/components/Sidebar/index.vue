@@ -7,7 +7,7 @@
         :collapse="isCollapse"
         :background-color="variables.menuBg"
         :text-color="variables.menuText"
-        :unique-opened="false"
+        :unique-opened="true"
         :active-text-color="variables.menuActiveText"
         :collapse-transition="false"
         mode="vertical"
@@ -32,7 +32,6 @@ export default {
       'sidebar'
     ]),
     activeMenu() {
-      debugger
       const route = this.$route
       const { meta, path } = route
       // if set path, the sidebar will highlight the path you set

@@ -1,5 +1,5 @@
 <template>
-  <div>提前还款查询</div>
+  <div style="padding:30px;text-align:center">待开发，敬请期待!</div>
 </template>
 <script>
 export default {

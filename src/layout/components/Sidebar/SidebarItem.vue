@@ -57,7 +57,6 @@ export default {
   },
   methods: {
     hasOneShowingChild(children = [], parent) {
-      debugger
       const showingChildren = children.filter(item => {
         if (item.hidden) {
           return false
@@ -82,7 +81,6 @@ export default {
       return false
     },
     resolvePath(routePath) {
-      debugger
       if (isExternal(routePath)) {
         return routePath
       }
