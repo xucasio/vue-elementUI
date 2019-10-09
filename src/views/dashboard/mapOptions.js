@@ -24,7 +24,7 @@ import rem from '../../utils/bigData/rem'
 //   }
 //   return ret;
 // };
-
+debugger
 const mapOption = {
   title: {
     text: '牦牛养殖分布',

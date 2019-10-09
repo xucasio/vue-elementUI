@@ -51,7 +51,6 @@ const mutations = {
 function importComponent(data) {
   try {
     for (let i = 0; i < data.length; i++) {
-      // data[i].path = data[i].attributes.url.slice(data[i].attributes.url.lastIndexOf('/'))
       if (data[i].childrens.length > 0) {
         data[i].children = data[i].childrens
       }
@@ -68,11 +67,19 @@ function importComponent(data) {
       } else if (data[i].hasParent && data[i].hasChildren) {
         data[i].path = data[i].attributes.url.slice(data[i].attributes.url.lastIndexOf('/') + 1)
         data[i].redirect = data[i].childrens[0].attributes.url
-        data[i].component = _import(data[i].attributes.url + '/index')
+        try {
+          data[i].component = _import(data[i].attributes.url + '/index')
+        } catch (err) {
+          data[i].component = _import('/error-page/404')
+        }
       } else if (data[i].hasChildren && !data[i].hasParent) {
         data[i].redirect = data[i].children[0].attributes.url
       } else if (!data[i].hasChildren && data[i].hasParent) {
-        data[i].component = _import(data[i].attributes.url)
+        try {
+          data[i].component = _import(data[i].attributes.url)
+        } catch (err) {
+          data[i].component = _import('/error-page/404')
+        }
       }
       if (data[i].children && data[i].children.length) {
         importComponent(data[i].children)
@@ -88,8 +95,11 @@ function importComponent(data) {
           data[i].path = data[i].attributes.url.slice(data[i].attributes.url.lastIndexOf('/'))
         } else if (data[i].hasParent && !data[i].hasChildren) {
           data[i].path = data[i].attributes.url.slice(data[i].attributes.url.lastIndexOf('/') + 1)
-          data[i].component = _import(data[i].attributes.url)
-          console.log('layout', Layout)
+          try {
+            data[i].component = _import(data[i].attributes.url)
+          } catch (err) {
+            data[i].component = _import('/error-page/404')
+          }
         } else if (data[i].hasParent && data[i].hasChildren) {
           data[i].path = data[i].attributes.url.slice(data[i].attributes.url.lastIndexOf('/') + 1)
         }
@@ -105,11 +115,9 @@ const actions = {
   generateRoutes({ commit }) {
     return new Promise(resolve => {
       let accessedRoutes = []
-      console.log(accessedRoutes)
       menuInfo().then((res) => {
         // console.log(res)
         accessedRoutes = importComponent(res.menus || []) || []
-        console.log(accessedRoutes)
         commit('SET_ROUTES', accessedRoutes)
         resolve(accessedRoutes)
       })

@@ -72,7 +72,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password, verify: verify }).then(response => {
         const data = response
-        if (data.code !== 0) {
+        if (data.code !== 200) {
           Message({
             message: data.msg || '网络连接失败',
             type: 'error',

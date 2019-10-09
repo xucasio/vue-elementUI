@@ -153,7 +153,7 @@ const twoOption = {
     right: 8,
     textStyle: {
       color: 'white',
-      fontSize: rem.getDynamicSize(15)
+      fontSize: rem.getDynamicSize(14)
     }
   },
   tooltip: {

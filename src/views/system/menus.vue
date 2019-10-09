@@ -7,7 +7,7 @@
       </el-button>
     </div> -->
     <div class="filter-container">
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-plus" @click="handleCreate({})">
+      <el-button v-waves type="primary" icon="el-icon-plus" @click="handleCreate({})">
         新增
       </el-button>
     </div>
@@ -54,7 +54,7 @@
       />
       <el-table-column
         label="操作"
-        width="200"
+        width="240"
       >
         <template slot-scope="scope">
           <el-button class="filter-item" type="primary" icon="el-icon-plus" @click="handleCreate(scope.row)" />

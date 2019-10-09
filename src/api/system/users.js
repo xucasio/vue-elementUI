@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 export function getList(query) {
   return request({
-    url: 'sys/role/list',
+    url: 'sys/user/list',
     method: 'get',
     params: query
   })
@@ -29,7 +29,7 @@ export function remove(data) {
 }
 export function menuTree(str) {
   return request({
-    url: 'sys/menu/tree' + str,
+    url: 'system/sysDept/tree' + str,
     method: 'Get'
   })
 }

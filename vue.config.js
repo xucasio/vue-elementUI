@@ -1,5 +1,7 @@
 'use strict'
 const path = require('path')
+const postcssPx2rem = require('postcss-px2rem')
+const autoprefixer = require('autoprefixer')
 const defaultSettings = require('./src/settings.js')
 
 function resolve(dir) {
@@ -26,7 +28,7 @@ module.exports = {
    */
   publicPath: '/',
   outputDir: 'dist',
-  assetsDir: 'static',
+  assetsDir: 'maoniu_web/static', // static
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
@@ -51,11 +53,29 @@ module.exports = {
         target: 'http://192.168.10.151:8083', // 设置你调用的接口域名和端口号 别忘了加http
         changeOrigin: true,
         pathRewrite: {
-          '^/api': ''
+          '^/api': '/api'
+        }
+      },
+      '^/web': {
+        target: 'http://192.168.10.34:8085', // 设置你调用的接口域名和端口号 别忘了加http
+        // target: 'http://192.168.100.151:8085', // 设置你调用的接口域名和端口号 别忘了加http
+        changeOrigin: true,
+        pathRewrite: {
+          '^/web': '/api'
         }
       }
     },
     after: require('./mock/mock-server.js')
+  },
+  css: {
+    loaderOptions: {
+      postcss: {
+        plugins: [
+          autoprefixer({ browsers: ['last 2 versions'] }),
+          postcssPx2rem({ remUnit: 14 }) // 换算的基数
+        ]
+      }
+    }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
@@ -71,10 +91,10 @@ module.exports = {
     // },
     performance: {
       hints: 'warning', // 枚举 false关闭
-      maxEntrypointSize: 50000000, //入口文件的最大体积，单位字节
-      maxAssetSize: 30000000, //生成文件的最大体积，单位字节
-      assetFilter: function(assetFilename) { //只给出js文件的性能提示
-        return assetFilename.endsWith('.js');
+      maxEntrypointSize: 50000000, // 入口文件的最大体积，单位字节
+      maxAssetSize: 30000000, // 生成文件的最大体积，单位字节
+      assetFilter: function(assetFilename) { // 只给出js文件的性能提示
+        return assetFilename.endsWith('.js')
       }
     }
   },

@@ -16,11 +16,11 @@
 </template>
 
 <script>
-import '../../utils/bigData/convert' // 引入js公共方法
+import '@/utils/bigData/convert' // 引入js公共方法
 import Left from './Left'
 import Middle from './Middle'
 import Right from './Right'
-import '../../assets/bigData/reset.css'
+import '@/assets/bigData/reset.css'
 
 export default {
   components: {
@@ -126,7 +126,7 @@ export default {
       /deep/ .summary,
       /deep/ .money {
         padding: 5px 0;
-        font-size: 18px;
+        font-size: 16px;
         color: #00ffff;
         .num {
           color: white;

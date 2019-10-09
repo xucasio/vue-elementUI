@@ -230,7 +230,7 @@ export default {
       })
     },
     getVerify() {
-      this.$refs['verifyCode'].src = 'api/getVerify?' + Math.random()
+      this.$refs['verifyCode'].src = process.env.VUE_APP_BASE_API + '/getVerify?' + Math.random()
     }
     // afterQRScan() {
     //   if (e.key === 'x-admin-oauth-code') {

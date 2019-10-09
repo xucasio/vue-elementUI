@@ -6,13 +6,14 @@ const getDynamicSize = (size) => {
   if (!scale) {
     return size
   }
-  return Math.ceil((size / 75) * localStorage.getItem('maoniu-scale'))
+  debugger
+  return Math.ceil((size / 14) * localStorage.getItem('maoniu-scale'))
 }
 
 const setRemInit = () => {
   // postcss-px2rem的内容
   // 基准大小
-  const baseSize = 75
+  const baseSize = 14
   // 设置 rem 函数
   const setRem = () => {
     // 当前页面宽度相对于 1920 宽的缩放比例，可根据自己需要修改。
